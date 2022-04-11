@@ -3,6 +3,7 @@ using HealthChecker.Data;
 using HealthChecker.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace HealthChecker.Repositories
@@ -21,6 +22,27 @@ namespace HealthChecker.Repositories
         public IEnumerable<Server> GetAll()
         {
 
+            checkStatus();
+
+            //httpClient.Dispose();
+
+            return _appData.servers;
+        }
+
+        public Server GetByName(string serverName)
+        {
+            checkStatus();
+            return _appData.servers.SingleOrDefault(s => s.Name.ToUpper().Equals(serverName.ToUpper()));
+        }
+
+        public IEnumerable<Server> GetServersByStatus(string status)
+        {
+            checkStatus();
+            return _appData.servers.Where(s => s.Status.ToUpper().Equals(status.ToUpper())).ToList();
+        }
+
+        private List<Server>checkStatus()
+        {
             foreach (Server item in _appData.servers)
             {
                 if (httpClient.GetAsync(item.HealthCheckUri).Result.IsSuccessStatusCode)
@@ -32,13 +54,10 @@ namespace HealthChecker.Repositories
                 {
                     item.Status = "DOWN";
                 }
-                    
-            }
 
-            //httpClient.Dispose();
+            }
 
             return _appData.servers;
         }
-
     }
 }

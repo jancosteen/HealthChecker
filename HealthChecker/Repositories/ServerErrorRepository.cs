@@ -4,10 +4,11 @@ using HealthChecker.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace HealthChecker.Repositories
 {
-    public class ServerErrorRepository: IServerErrorRepository
+    public class ServerErrorRepository : IServerErrorRepository
     {
         private readonly AppData _appData;
 
@@ -33,9 +34,8 @@ namespace HealthChecker.Repositories
             }
 
 
-            return serverErrorData;
-
-            
+            return serverErrorData;            
         }
+
     }
 }

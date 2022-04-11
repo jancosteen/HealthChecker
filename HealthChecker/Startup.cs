@@ -56,8 +56,8 @@ namespace HealthChecker
                 //var logger = provider.GetRequiredService<ILogger<Startup>>();
                 //options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occured", ctx.OriginalException.Message);
             }).AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
-                .AddGraphTypes(typeof(AppSchema), ServiceLifetime.Scoped);
-
+                .AddGraphTypes(typeof(AppSchema), ServiceLifetime.Scoped)
+                ; 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

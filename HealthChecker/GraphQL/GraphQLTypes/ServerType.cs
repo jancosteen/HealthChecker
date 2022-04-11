@@ -1,4 +1,5 @@
-﻿using GraphQL.Types;
+﻿using GraphQL.DataLoader;
+using GraphQL.Types;
 using HealthChecker.Contracts;
 using HealthChecker.Entities;
 using System;

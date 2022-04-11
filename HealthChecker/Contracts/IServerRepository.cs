@@ -6,5 +6,7 @@ namespace HealthChecker.Contracts
     public interface IServerRepository
     {
         IEnumerable<Server> GetAll();
+        Server GetByName(string serverName);
+        IEnumerable<Server> GetServersByStatus(string status);
     }
 }
