@@ -29,16 +29,32 @@ namespace HealthChecker.Repositories
             return _appData.servers;
         }
 
+        public Server GetById(string id)
+        {
+            checkStatus();
+            return _appData.servers.SingleOrDefault(s => s.Id.ToUpper().Equals(id.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE");
+        }
+
         public Server GetByName(string serverName)
         {
             checkStatus();
-            return _appData.servers.SingleOrDefault(s => s.Name.ToUpper().Equals(serverName.ToUpper()));
+            return _appData.servers.SingleOrDefault(s => s.Name.ToUpper().Equals(serverName.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE");
         }
 
         public IEnumerable<Server> GetServersByStatus(string status)
         {
             checkStatus();
-            return _appData.servers.Where(s => s.Status.ToUpper().Equals(status.ToUpper())).ToList();
+            return _appData.servers.Where(s => s.Status.ToUpper().Equals(status.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE").ToList();
+        }
+
+        public Server UpdateServer(Server dbServer)
+        {
+            if (dbServer.VisibleFlg.ToUpper() != "TRUE")
+                dbServer.VisibleFlg = "TRUE";
+            else
+                dbServer.VisibleFlg = "FALSE";
+
+            return dbServer;
         }
 
         private List<Server>checkStatus()

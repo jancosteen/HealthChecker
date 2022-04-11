@@ -11,6 +11,7 @@ namespace HealthChecker.Entities
         public string HealthCheckUri { get; set; }
         public string Status { get; set; }
         public string? LastTimeUp { get; set; }
+        public string VisibleFlg { get; set; } = "true";
 
         public ServerError? Error { get; set; }
 

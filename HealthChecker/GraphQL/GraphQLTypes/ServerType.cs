@@ -15,6 +15,7 @@ namespace HealthChecker.GraphQL.GraphQLTypes
             Field(x => x.HealthCheckUri).Description("HealthCheckUri property of server");
             Field(x => x.LastTimeUp, nullable: true).Description("Last Time the server was up");
             Field(x => x.Status).Description("HealtCheck status of server");
+            Field(x => x.VisibleFlg).Description("Property to indicate if the server is visible on the health check");
             Field<ListGraphType<ServerErrorType>>(
                 "errors",
                 resolve: context => repository.GetAllServerErrorsPerServer(context.Source)
