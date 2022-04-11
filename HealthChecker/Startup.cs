@@ -18,6 +18,7 @@ using HealthChecker.Repositories;
 using HealthChecker.Contracts;
 using HealthChecker.GraphQL.GraphQLSchema;
 using HealthChecker.Data;
+using HealthChecker.PersistData;
 
 namespace HealthChecker
 {
@@ -42,6 +43,7 @@ namespace HealthChecker
             //custom schema
             services.AddScoped<AppSchema>();
             services.AddSingleton<AppData>();
+            services.AddSingleton<ReadPersistedData>();
             services.AddSingleton<ServerType1>();
 
 
@@ -132,5 +134,7 @@ namespace HealthChecker
             var cts = CancellationTokenSource.CreateLinkedTokenSource(base.GetCancellationToken(context), new CancellationTokenSource(TimeSpan.FromSeconds(30)).Token);
             return cts.Token;
         }
+
+
     }
 }

@@ -10,5 +10,6 @@ namespace HealthChecker.Contracts
         Server GetById(string id);
         IEnumerable<Server> GetServersByStatus(string status);
         Server UpdateServer(Server dbServer);
+
     }
 }

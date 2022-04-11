@@ -1,6 +1,7 @@
 ﻿using HealthChecker.Contracts;
 using HealthChecker.Data;
 using HealthChecker.Entities;
+using HealthChecker.PersistData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,12 @@ namespace HealthChecker.Repositories
 
         private readonly AppData _appData;
 
-        public ServerRepository(AppData appData)
+        private static ReadPersistedData _persistedData;
+
+        public ServerRepository(AppData appData, ReadPersistedData persistedData)
         {
             _appData = appData;
+            _persistedData = persistedData;
         }
 
         public IEnumerable<Server> GetAll()
@@ -57,6 +61,7 @@ namespace HealthChecker.Repositories
             return dbServer;
         }
 
+
         private List<Server>checkStatus()
         {
             foreach (Server item in _appData.servers)
@@ -71,9 +76,16 @@ namespace HealthChecker.Repositories
                     item.Status = "DOWN";
                 }
 
+                WriteToFile(item.Id, item.LastTimeUp);
+
             }
 
             return _appData.servers;
+        }
+
+        private void WriteToFile(string serverId, string lastTimeUpDate)
+        {
+            _persistedData.WriteData(serverId, lastTimeUpDate);
         }
     }
 }
