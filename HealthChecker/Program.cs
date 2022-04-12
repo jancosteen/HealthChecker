@@ -19,16 +19,12 @@ namespace HealthChecker
 
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            while (true)
-            {
+            
                 return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-                Thread.Sleep(60000);
-            }
 
         }
           

@@ -21,7 +21,7 @@ namespace HealthChecker.GraphQL.GraphQLMutations
                     //var server = context.GetArgument<Server>("server");
                     var serverId = context.GetArgument<string>("serverId");
 
-                    var dbServer = repository.GetById(serverId);
+                    var dbServer = repository.GetByIdNoFlg(serverId);
                     if(dbServer == null)
                     {
                         context.Errors.Add(new ExecutionError("Couldn't find server in db"));

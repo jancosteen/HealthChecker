@@ -25,29 +25,43 @@ namespace HealthChecker.Repositories
 
         public IEnumerable<Server> GetAll()
         {
-
+            ReadFile();
             checkStatus();
+            WriteToFile();
 
-            //httpClient.Dispose();
-
-            return _appData.servers;
+            return _appData.servers.Where(s => s.VisibleFlg.ToUpper() != "FALSE");
         }
+
 
         public Server GetById(string id)
         {
+            ReadFile();
             checkStatus();
+            WriteToFile();
             return _appData.servers.SingleOrDefault(s => s.Id.ToUpper().Equals(id.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE");
+        }
+
+        public Server GetByIdNoFlg(string id)
+        {
+            ReadFile();
+            checkStatus();
+            WriteToFile();
+            return _appData.servers.SingleOrDefault(s => s.Id.ToUpper().Equals(id.ToUpper()));
         }
 
         public Server GetByName(string serverName)
         {
+            ReadFile();
             checkStatus();
+            WriteToFile();
             return _appData.servers.SingleOrDefault(s => s.Name.ToUpper().Equals(serverName.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE");
         }
 
         public IEnumerable<Server> GetServersByStatus(string status)
         {
+            ReadFile();
             checkStatus();
+            WriteToFile();
             return _appData.servers.Where(s => s.Status.ToUpper().Equals(status.ToUpper()) && s.VisibleFlg.ToUpper() != "FALSE").ToList();
         }
 
@@ -64,6 +78,8 @@ namespace HealthChecker.Repositories
 
         private List<Server>checkStatus()
         {
+
+
             foreach (Server item in _appData.servers)
             {
                 if (httpClient.GetAsync(item.HealthCheckUri).Result.IsSuccessStatusCode)
@@ -74,18 +90,21 @@ namespace HealthChecker.Repositories
                 else
                 {
                     item.Status = "DOWN";
-                }
-
-                WriteToFile(item.Id, item.LastTimeUp);
+                }                
 
             }
 
             return _appData.servers;
         }
 
-        private void WriteToFile(string serverId, string lastTimeUpDate)
+        private void WriteToFile()
         {
-            _persistedData.WriteData(serverId, lastTimeUpDate);
+            _persistedData.WriteData();
+        }
+
+        private void ReadFile()
+        {
+            _persistedData.ReadData();
         }
     }
 }
